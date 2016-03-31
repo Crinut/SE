@@ -19,7 +19,7 @@ public class Consumer extends Thread {
 			BufferedWriter bw = new BufferedWriter(fw);
             
             while((name = this.queue.get()) != null){
-                bw.append(name + "\n");
+                bw.append("Bonjour " +name + "\n");
             }
             bw.close();
         } catch(Exception e) {
