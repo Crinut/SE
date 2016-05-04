@@ -1,0 +1,53 @@
+
+public class Philosophe extends Thread {
+	int no;
+	int nbBouchees;
+	boolean fini;
+	long debut;
+	Fourchettes lesFourchettes;
+	LeDiner laTable;
+	
+	
+	Philosophe()
+	{
+		fini = true;
+	}
+	
+	Philosophe(int _no, int _nbBouchees, Fourchettes _lesFourchettes, LeDiner _laTable)
+	{
+		no = _no;
+		nbBouchees = _nbBouchees;
+		lesFourchettes = _lesFourchettes;
+		fini = false;
+		laTable = _laTable;
+	}
+	
+	public void run()
+	{
+		debut = System.currentTimeMillis();
+		
+		while(!fini)
+		{
+			laTable.penserEtAttendre(no);
+            lesFourchettes.prendre(no);
+            laTable.manger(no, nbBouchees);
+			
+            nbBouchees--;
+            fini = (nbBouchees<=0); 
+			
+            try {
+				Thread.sleep((int)(Math.random()*2000));
+			} catch (InterruptedException e) {}
+            
+            lesFourchettes.deposer(no);
+            laTable.penser(no);
+            try {
+				Thread.sleep((int)(Math.random()*2000));
+			} catch (InterruptedException e) {}
+		}
+		
+		long fin = System.currentTimeMillis();
+		laTable.finir(no);
+	}
+
+}
